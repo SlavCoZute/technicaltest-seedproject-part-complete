@@ -2,10 +2,12 @@ import Store from "../Store";
 import mockData from "../../../public/db.json";
 
 describe("filter", () => {
+  // Arrange
+  const sut = new Store();
+  sut.setDeals(mockData.deals);
+
   it("should return all deals when no filters applied", () => {
-    // Arrange
-    const sut = new Store();
-    sut.setDeals(mockData.deals);
+
 
     // Act
     const result = sut.deals;
@@ -15,12 +17,18 @@ describe("filter", () => {
   });
 
   it("should return 4 broadband only deals", () => {
-    const sut = new Store();
-    sut.setDeals(mockData.deals);
     sut.setProductFilter("broadband");
 
     const result = sut.deals;
 
     expect(result).toHaveLength(4)
+  });
+
+  it("should return 4 broadband and tv only deals", () => {
+    sut.setProductFilter("tv");
+
+    const result = sut.deals;
+
+    expect(result.find(deal => deal.productTypes.includes("tv"))).toHaveLength(2);
   })
 });

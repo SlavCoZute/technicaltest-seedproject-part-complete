@@ -16,6 +16,8 @@ class Store extends Observable {
   }
 
   filter() {
+    if (!this.state.productFilters.length && !this.state.providerFilter) return this.state.deals;
+
     let deals = this.state.deals.map(deal => ({...deal, productTypes: normalize(deal.productTypes)}));
 
     return deals.filter(deal =>
