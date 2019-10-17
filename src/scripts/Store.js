@@ -1,4 +1,5 @@
 import Observable from "./Observable";
+import {normalize} from "./utils";
 
 class Store extends Observable {
   constructor() {
@@ -15,7 +16,11 @@ class Store extends Observable {
   }
 
   filter() {
-    return this.state.deals;
+    let deals = this.state.deals.map(deal => ({...deal, productTypes: normalize(deal.productTypes)}));
+
+    return deals.filter(deal =>
+      deal.productTypes.filter(type => type.includes("broadband")).length
+      && deal.productTypes.length === 2);
   }
 
   setDeals(data) {
