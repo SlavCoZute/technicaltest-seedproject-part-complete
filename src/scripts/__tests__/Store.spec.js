@@ -13,4 +13,14 @@ describe("filter", () => {
     // Assert
     expect(result).toEqual(mockData.deals);
   });
+
+  it("should return 4 broadband only deals", () => {
+    const sut = new Store();
+    sut.setDeals(mockData.deals);
+    sut.setProductFilter("broadband");
+
+    const result = sut.deals;
+
+    expect(result).toHaveLength(4)
+  })
 });
