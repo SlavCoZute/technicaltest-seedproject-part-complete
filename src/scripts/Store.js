@@ -32,7 +32,7 @@ class Store extends Observable {
       productTypes: ignoreProductTypes(["Phone"], deal.productTypes)
     }));
 
-    return deals.filter(deal => deal.productTypes.length === this.state.productFilters.length)
+    const filteredByProductType = deals.filter(deal => deal.productTypes.length === this.state.productFilters.length)
       .filter(deal => {
         const matches = [];
         deal.productTypes.forEach(type => {
@@ -40,6 +40,10 @@ class Store extends Observable {
         });
         return matches.filter(match => match).length === deal.productTypes.length
       });
+
+    return this.state.providerFilter
+      ? filteredByProductType.filter(deal => deal.provider.id === this.state.providerFilter)
+      : filteredByProductType
   }
 
   setDeals(data) {
