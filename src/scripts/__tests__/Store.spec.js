@@ -40,4 +40,13 @@ describe("filter", () => {
 
     expect(result).toHaveLength(1);
   });
+
+  it("should return 1 deal from Sky provider", () => {
+    sut.state.productFilters = [];
+    sut.setProviderFilter(1);
+
+    const result = sut.deals;
+
+    expect(result).toHaveLength(1);
+  })
 });
