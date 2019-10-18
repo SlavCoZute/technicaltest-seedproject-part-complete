@@ -18,6 +18,10 @@ class Store extends Observable {
   filter() {
     if (!this.state.productFilters.length && !this.state.providerFilter) return this.state.deals;
 
+    if (!this.state.productFilters.length && this.state.providerFilter) {
+      return this.state.deals.filter(deal => deal.provider.id === this.state.providerFilter)
+    }
+
     function ignoreProductTypes (typesToIgnore = [], productTypes = []) {
       if (!typesToIgnore.length || !productTypes.length) return productTypes;
       return normalize(productTypes).filter(type => !normalize(typesToIgnore).includes(type))
