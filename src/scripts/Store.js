@@ -18,11 +18,24 @@ class Store extends Observable {
   filter() {
     if (!this.state.productFilters.length && !this.state.providerFilter) return this.state.deals;
 
-    let deals = this.state.deals.map(deal => ({...deal, productTypes: normalize(deal.productTypes)}));
+    function ignoreProductTypes (typesToIgnore = [], productTypes = []) {
+      if (!typesToIgnore.length || !productTypes.length) return productTypes;
+      return normalize(productTypes).filter(type => !normalize(typesToIgnore).includes(type))
+    }
 
-    return deals.filter(deal =>
-      deal.productTypes.filter(type => type.includes("broadband")).length
-      && deal.productTypes.length === 2);
+    let deals = this.state.deals.map(deal => ({
+      ...deal,
+      productTypes: ignoreProductTypes(["Phone"], deal.productTypes)
+    }));
+
+    return deals.filter(deal => deal.productTypes.length === this.state.productFilters.length)
+      .filter(deal => {
+        const matches = [];
+        deal.productTypes.forEach(type => {
+          this.state.productFilters.forEach(filter => matches.push(type.includes(filter)))
+        });
+        return matches.filter(match => match).length === deal.productTypes.length
+      });
   }
 
   setDeals(data) {

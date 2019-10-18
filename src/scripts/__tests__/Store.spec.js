@@ -29,6 +29,6 @@ describe("filter", () => {
 
     const result = sut.deals;
 
-    expect(result.find(deal => deal.productTypes.includes("tv"))).toHaveLength(2);
-  })
+    expect(result).toHaveLength(4);
+  });
 });
