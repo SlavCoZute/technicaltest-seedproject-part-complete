@@ -31,4 +31,13 @@ describe("filter", () => {
 
     expect(result).toHaveLength(4);
   });
+
+  it("should return 1 broadband and mobile only deals", () => {
+    sut.setProductFilter("tv");
+    sut.setProductFilter("mobile");
+
+    const result = sut.deals;
+
+    expect(result).toHaveLength(1);
+  });
 });
