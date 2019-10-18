@@ -25,7 +25,7 @@ describe("filter", () => {
   });
 
   it("should return 4 broadband and tv only deals", () => {
-    sut.setProductFilter("tv");
+    sut.state.productFilters = ["tv", "broadband"];
 
     const result = sut.deals;
 
@@ -33,8 +33,7 @@ describe("filter", () => {
   });
 
   it("should return 1 broadband and mobile only deals", () => {
-    sut.setProductFilter("tv");
-    sut.setProductFilter("mobile");
+    sut.state.productFilters = ["mobile", "broadband"];
 
     const result = sut.deals;
 
@@ -48,5 +47,14 @@ describe("filter", () => {
     const result = sut.deals;
 
     expect(result).toHaveLength(1);
+  });
+
+  it("should return 2 deals from BT provider for broadband and tv only", () => {
+    sut.state.productFilters = ["broadband", "tv"];
+    sut.setProviderFilter(3);
+
+    const result = sut.deals;
+
+    expect(result).toHaveLength(2);
   })
 });
